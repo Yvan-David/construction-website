@@ -1,27 +1,18 @@
 import { useEffect } from "react";
 
-import axiosClient from "../../hooks/AxiosInstance";
-import { toast } from "react-toastify";
 
 const SellerDashboardStats = () => {
-
-  const notify = (message: string) => toast(message);
-
-  const client = axiosClient();
 
   useEffect(() => {
     const fetchCollections = async () => {
       try {
 
-        const response = await client.get("/collections");
-        const { totalPages, limit } = response.data.pagination;
-        let collectionsCount = response.data.collections.length;
+        const { totalPages, limit } = {totalPages:100, limit:100};
+        let collectionsCount = 5;
         for (let page = 2; page <= totalPages; page++) {
-          const res = await client.get(`/collections?page=${page}&limit=${limit}`);
-          collectionsCount += res.data.collections.length;
+          collectionsCount += limit
         }
       } catch (err: any) {
-        notify(err.response ? err.response.data.message : "Fetching collections failed");
       } finally {
       }
     };

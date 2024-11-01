@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { setAuthRole, setAuthToken, setIsLoggedIn } from "../redux/authSlice";
 import { toast } from "react-toastify";
 import { MdSpaceDashboard } from "react-icons/md";
+import { IoCartOutline } from "react-icons/io5";
 
 interface NavbarProps {
   burgerShown?: boolean;
@@ -21,10 +22,10 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = (props) => {
-  const isLoggedIn = useSelector(
-    (state: RootState) => state.auth.isLoggedIn,
-    shallowEqual,
-  );
+  // const isLoggedIn = useSelector(
+  //   (state: RootState) => state.auth.isLoggedIn,
+  //   shallowEqual,
+  // );
   const authRole = useSelector(
     (state: RootState) => state.auth.authRole,
     shallowEqual,
@@ -144,11 +145,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
             className="text-xl flex tablet:hidden"
             onClick={() => setShowSearch(!showSearch)}
           />
-          {!isLoggedIn ? (
-            <Link to="/login" className="flex gap-2 rounded-full bg-black p-3 px-6 tablet:hidden">
-                <p className="text-white text-sm">Log in</p>
-            </Link>
-          ) : (
+          { (
             <button
               onClick={() => setIsBurgerShown(!burgerShown)}
               className="tablet:hidden"
@@ -162,7 +159,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
           )}
         </div>
 
-       {isLoggedIn && burgerShown && (
+       { burgerShown && (
           <div className="bg-black flex tablet:hidden z-10 absolute w-[80%] tablet:w-[60%] top-[10%] right-[15%] border border-gray_100 rounded-sm">
             <ul className="w-full p-4 space-y-2">
               <li className="bg-gray rounded-sm">
@@ -173,6 +170,17 @@ const Navbar: React.FC<NavbarProps> = (props) => {
                   </div>
                 </Link>
               </li>
+              <li className=" rounded-sm hover:bg-white transition-all">
+              <Link to="/materials/products" className="text-lg">
+                <div className="flex-between justify-center space-x-1 p-2 ">
+                  <div className="relative">
+                  <IoCartOutline className="text-gray_100" />
+                  </div>
+
+                  <p className="text-xs text-gray_100">Materials</p>
+                </div>
+              </Link>
+            </li>
 
               <li>
               {  authRole =="admin" &&            <Link

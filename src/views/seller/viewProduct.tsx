@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import axiosClient from "../../hooks/AxiosInstance";
-import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import Hero from "../../assets/images/images (1).jpeg"
@@ -87,7 +85,6 @@ const ViewProducts = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const client = axiosClient();
 
   useEffect(() => {
     const fetchCollections = async () => {
@@ -112,12 +109,12 @@ const ViewProducts = () => {
 
       setIsLoading(true);
       try {
-        const response = await client.get<{
-          products: Product[];
-          pagination: { totalPages: number };
-        }>(`/collections/${selectedCollection}/products?page=${page}`);
+        // const response = await client.get<{
+        //   products: Product[];
+        //   pagination: { totalPages: number };
+        // }>(`/collections/${selectedCollection}/products?page=${page}`);
         //setProducts(response.data.products);
-        setTotalPages(response.data.pagination.totalPages);
+        setTotalPages(100);
       } catch (err: any) {
         // notify(
         //   err.response ? err.response.data.message : "Fetching products failed",
@@ -144,18 +141,18 @@ const ViewProducts = () => {
 
 
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async () => {
     setIsLoading(true);
     try {
-      await client.delete(`/collections/products/${id}`);
+     // await client.delete(`/collections/products/${id}`);
       // setProducts((prevProducts) =>
       //   prevProducts.filter((product) => product.id !== id),
       // );
-      toast("Product deleted successfully");
+      // toast("Product deleted successfully");
     } catch (err: any) {
-      toast(
-        err.response ? err.response.data.message : "Failed to delete product",
-      );
+      // toast(
+      //   err.response ? err.response.data.message : "Failed to delete product",
+      // );
     } finally {
       setIsLoading(false);
     }
@@ -214,7 +211,7 @@ const ViewProducts = () => {
                     <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                       Details
                     </th>
-                    <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                       Actions
                     </th>
                   </tr>
@@ -263,7 +260,7 @@ const ViewProducts = () => {
                           {new Date(product.expiryDate).toLocaleDateString()}
                         </div>
                       </td>
-                      <td className="px-2 py-3 text-sm">
+                      <td className="px-2 py-3 text-sm hidden sm:table-cell">
                         <div className="flex items-center space-x-2">
                           <Link
                             to={`/product-detail/${product.id}`}
@@ -287,7 +284,7 @@ const ViewProducts = () => {
                           <button
                             aria-label="delete"
                             className="bg-red-500 text-white px-2 py-1 rounded flex items-center justify-center"
-                            onClick={() => handleDelete(product.id)}
+                            onClick={() => handleDelete()}
                           >
                             <FaTrash className="text-lg" />
                           </button>
